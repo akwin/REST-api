@@ -25,6 +25,12 @@ exports.createPost = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+    if (!req.file) {
+        const error = new Error('Image is missing');
+        error.statusCode = 422;
+        throw error;
+    }
+    const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
     //console.log(title, content);
@@ -32,7 +38,7 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         title: title,
         content: content,
-        imageUrl: 'images/poppies.png',
+        imageUrl: imageUrl,
         creator: { name: 'Akanksha' }
     });
     post.save()
